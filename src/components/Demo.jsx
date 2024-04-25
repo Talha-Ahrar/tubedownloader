@@ -64,14 +64,14 @@ const Demo = () => {
   };
 
   const extractYouTubeVideoId = (url) => {
-    const regExp = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/g;
+    const regExp = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const match = url.match(regExp);
     if (match) {
-      const id = url.split('v=')[1];
-      return id ? id.split('&')[0] : null;
+        return match[1]; // Return the captured video ID
     }
     return null;
-  };
+};
+
   const convertBitrateToMbps = (bitrateBps) => {
     return (bitrateBps / 1000000).toFixed(2); // Convert to Mbps and round to 2 decimal places
   };
@@ -94,7 +94,7 @@ const Demo = () => {
             value={article.url}
             onChange={(e) => setArticle({ ...article, url: e.target.value })}
             required
-            pattern="^(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/)[a-zA-Z0-9_-]{11}$"
+            pattern="^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[a-zA-Z0-9_-]{11}$"
             className='url_input peer text-black'
           />
           <button
